@@ -16,12 +16,15 @@ import (
 	"time"
 
 	"github.com/BurntSushi/toml"
+	"github.com/drand/drand/beacon"
 	"github.com/drand/drand/core"
 	"github.com/drand/drand/fs"
 	"github.com/drand/drand/key"
 	"github.com/drand/drand/log"
 	"github.com/drand/drand/net"
 	"github.com/drand/drand/protobuf/drand"
+	"github.com/golang/protobuf/proto"
+	client "github.com/iotaledger/goshimmer/client"
 	"github.com/nikkolasg/slog"
 	"github.com/urfave/cli"
 )
@@ -32,16 +35,25 @@ var (
 	version   = "dev"
 	gitCommit = "none"
 	buildDate = "unknown"
+
+	api *client.GoShimmerAPI
 )
 
 const gname = "group.toml"
 const dpublic = "dist_key.public"
 const defaultPort = "8080"
+const defaultTxAddress = "RANDOM99NUMBER9999999999999999999999999999999999999999999999999999999999999999999"
 
 func banner() {
 	fmt.Printf("drand %v (date %v, commit %v) by nikkolasg\n", version, buildDate, gitCommit)
 	s := "WARNING: this software has NOT received a full audit and must be used with caution and probably NOT in a production environment.\n"
 	fmt.Printf(s)
+}
+
+var goshimmerAPIurl = cli.StringFlag{
+	Name:  "goshimmerAPIurl",
+	Value: "http://127.0.0.1:8080",
+	Usage: "The address of the goshimmer API",
 }
 
 var folderFlag = cli.StringFlag{
@@ -636,8 +648,48 @@ func contextToConfig(c *cli.Context) *core.Config {
 		}
 		opts = append(opts, core.WithTrustedCerts(paths...))
 	}
+	if c.IsSet("goshimmerAPIurl") {
+		api = client.NewGoShimmerAPI(c.String("goshimmerAPIurl"))
+		opts = append(opts, core.WithBeaconCallback(testCallback))
+	}
 	conf := core.NewConfig(opts...)
 	return conf
+}
+
+func testCallback(b *beacon.Beacon) {
+	h := core.RandomnessHash()
+	h.Write(b.GetSignature())
+	randomness := h.Sum(nil)
+	m := &drand.PublicRandResponse{
+		Previous:   b.GetPreviousSig(),
+		Round:      b.Round,
+		Signature:  b.GetSignature(),
+		Randomness: randomness,
+	}
+	data, err := proto.Marshal(m)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// t := &drand.PublicRandResponse{}
+	// proto.Unmarshal(data, t)
+	//fmt.Println("TESTING THIS", data, t)
+	size := strconv.Itoa((len(data)))
+	//fmt.Println("TESTING THIS", size, (size + string(data))[:3])
+	//fmt.Println("LEN", len(data), len(string(data)))
+	// conv, err := strconv.Atoi((size + string(data))[:3])
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// fmt.Println("TESTING THAT", conv)
+
+	txHash, err := api.BroadcastData(defaultTxAddress, size+string(data))
+	if err != nil {
+		fmt.Println("Error writing on the Tangle: ", err.Error())
+	} else {
+		fmt.Println("Beacon written on the Tangle with txHash: ", txHash)
+	}
+
 }
 
 func getNodes(c *cli.Context) []*key.Identity {

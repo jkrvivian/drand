@@ -14,15 +14,16 @@ require (
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/protobuf v1.3.2
 	github.com/grpc-ecosystem/grpc-gateway v1.12.1
+	github.com/iotaledger/goshimmer v0.1.3
 	github.com/kabukky/httpscerts v0.0.0-20150320125433-617593d7dcb3
 	github.com/nikkolasg/hexjson v0.0.0-20181101101858-78e39397e00c
 	github.com/nikkolasg/slog v0.0.0-20170921200349-3c8d441d7a1e
 	github.com/soheilhy/cmux v0.1.4
-	github.com/stretchr/testify v1.4.0
+	github.com/stretchr/testify v1.5.1
 	github.com/urfave/cli v1.22.2
 	go.etcd.io/bbolt v1.3.3 // indirect
 	golang.org/x/crypto v0.0.0-20200128174031-69ecbb4d6d5d
-	golang.org/x/net v0.0.0-20200114155413-6afb5195e5aa
+	golang.org/x/net v0.0.0-20200226121028-0de0cce0169b
 	golang.org/x/text v0.3.2 // indirect
 	google.golang.org/genproto v0.0.0-20200117163144-32f20d992d24
 	google.golang.org/grpc v1.26.0
