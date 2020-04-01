@@ -24,7 +24,7 @@ require (
 	github.com/nikkolasg/slog v0.0.0-20170921200349-3c8d441d7a1e
 	github.com/soheilhy/cmux v0.1.4
 	github.com/stretchr/testify v1.5.1
-	github.com/urfave/cli v1.22.1
+	github.com/urfave/cli v1.22.3
 	go.etcd.io/bbolt v1.3.3 // indirect
 	golang.org/x/crypto v0.0.0-20200128174031-69ecbb4d6d5d
 	golang.org/x/net v0.0.0-20200226121028-0de0cce0169b
