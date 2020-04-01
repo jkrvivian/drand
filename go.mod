@@ -1,4 +1,4 @@
-module github.com/drand/drand
+module github.com/jkrvivian/drand
 
 go 1.13
 
