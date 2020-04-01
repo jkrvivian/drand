@@ -54,106 +54,106 @@ func banner() {
 // 	Usage: "The address of the goshimmer API",
 // }
 
-var folderFlag = cli.StringFlag{
+var folderFlag = &cli.StringFlag{
 	Name:  "folder, f",
 	Value: core.DefaultConfigFolder(),
 	Usage: "Folder to keep all drand cryptographic information, with absolute path.",
 }
-var leaderFlag = cli.BoolFlag{
+var leaderFlag = &cli.BoolFlag{
 	Name:  "leader",
 	Usage: "Set this node as the initator of the distributed key generation process.",
 }
-var verboseFlag = cli.IntFlag{
+var verboseFlag = &cli.IntFlag{
 	Name:  "verbose, V",
 	Value: 1,
 	Usage: "Set verbosity to the given level. Level 1 is the info level and level 2 is the debug level. Verbosity is at the info level by default.",
 }
 
-var tlsCertFlag = cli.StringFlag{
+var tlsCertFlag = &cli.StringFlag{
 	Name: "tls-cert, c",
 	Usage: "Set the TLS certificate chain (in PEM format) for this drand node. " +
 		"The certificates have to be specified as a list of whitespace-separated file paths. " +
 		"This parameter is required by default and can only be omitted if the --tls-disable flag is used.",
 }
 
-var tlsKeyFlag = cli.StringFlag{
+var tlsKeyFlag = &cli.StringFlag{
 	Name: "tls-key, k",
 	Usage: "Set the TLS private key (in PEM format) for this drand node. " +
 		"The key has to be specified as a file path. " +
 		"This parameter is required by default and can only be omitted if the --tls-disable flag is used.",
 }
 
-var insecureFlag = cli.BoolFlag{
+var insecureFlag = &cli.BoolFlag{
 	Name:  "tls-disable, d",
 	Usage: "Disable TLS for all communications (not recommended).",
 }
 
-var controlFlag = cli.StringFlag{
+var controlFlag = &cli.StringFlag{
 	Name:  "control",
 	Usage: "Set the port you want to listen to for control port commands. If not specified, we will use the default port 8888.",
 }
 
-var listenFlag = cli.StringFlag{
+var listenFlag = &cli.StringFlag{
 	Name:  "listen, l",
 	Usage: "Set the listening (binding) address. Useful if you have some kind of proxy.",
 }
 
-var nodeFlag = cli.StringFlag{
+var nodeFlag = &cli.StringFlag{
 	Name:  "nodes, n",
 	Usage: "Contact the nodes at the given list of whitespace-separated addresses which have to be present in group.toml.",
 }
 
-var roundFlag = cli.IntFlag{
+var roundFlag = &cli.IntFlag{
 	Name:  "round, r",
 	Usage: "Request the public randomness generated at round num. If the drand beacon does not have the requested value, it returns an error. If not specified, the current randomness is returned.",
 }
 
-var groupFlag = cli.StringFlag{
+var groupFlag = &cli.StringFlag{
 	Name:  "group, g",
 	Usage: "If you want to merge keys into an existing group.toml file, run the group command and specify the group.toml file with this flag.",
 }
 
-var certsDirFlag = cli.StringFlag{
+var certsDirFlag = &cli.StringFlag{
 	Name:  "certs-dir",
 	Usage: "directory containing trusted certificates. Useful for testing and self signed certificates",
 }
 
-var outFlag = cli.StringFlag{
+var outFlag = &cli.StringFlag{
 	Name: "out, o",
 	Usage: "save the requested information into a separate file" +
 		" instead of stdout",
 }
 
-var periodFlag = cli.StringFlag{
+var periodFlag = &cli.StringFlag{
 	Name:  "period",
 	Usage: "period to write in the group.toml file",
 }
 
 // XXX deleted flags : debugFlag, outFlag, groupFlag, seedFlag, periodFlag, distKeyFlag, thresholdFlag.
 
-var oldGroupFlag = cli.StringFlag{
+var oldGroupFlag = &cli.StringFlag{
 	Name: "from",
 	Usage: "Old group.toml path to specify when a new node wishes to participate " +
 		"in a resharing protocol. This flag is optional in case a node is already" +
 		"included in the current DKG.",
 }
 
-var timeoutFlag = cli.StringFlag{
+var timeoutFlag = &cli.StringFlag{
 	Name:  "timeout",
 	Usage: fmt.Sprintf("Timeout to use during the DKG, in string format. Default is %s", core.DefaultDKGTimeout),
 }
 
-var pushFlag = cli.BoolFlag{
+var pushFlag = &cli.BoolFlag{
 	Name:  "push",
 	Usage: "Push mode forces the daemon to start making beacon requests to the other node, instead of waiting the other nodes contact it to catch-up on the round",
 }
 
-var sourceFlag = cli.StringFlag{
+var sourceFlag = &cli.StringFlag{
 	Name:  "source",
 	Usage: "Source flag allows to provide an executable which output will be used as additional entropy during resharing step.",
 }
 
-var userEntropyOnlyFlag = cli.BoolFlag{
+var userEntropyOnlyFlag = &cli.BoolFlag{
 	Name:  "user-source-only",
 	Usage: "user-source-only flag used with the source flag allows to only use the user's entropy to pick the dkg secret (won't be mixed with crypto/rand). Should be used for reproducibility and debbuging purposes.",
 }
