@@ -23,8 +23,6 @@ import (
 	"github.com/drand/drand/log"
 	"github.com/drand/drand/net"
 	"github.com/drand/drand/protobuf/drand"
-	"github.com/golang/protobuf/proto"
-	client "github.com/iotaledger/goshimmer/client"
 	"github.com/nikkolasg/slog"
 	"github.com/urfave/cli"
 )
@@ -36,7 +34,7 @@ var (
 	gitCommit = "none"
 	buildDate = "unknown"
 
-	api *client.GoShimmerAPI
+	//api *client.GoShimmerAPI
 )
 
 const gname = "group.toml"
@@ -50,11 +48,11 @@ func banner() {
 	fmt.Printf(s)
 }
 
-var goshimmerAPIurl = cli.StringFlag{
-	Name:  "goshimmerAPIurl",
-	Value: "http://127.0.0.1:8080",
-	Usage: "The address of the goshimmer API",
-}
+// var goshimmerAPIurl = cli.StringFlag{
+// 	Name:  "goshimmerAPIurl",
+// 	Value: "http://127.0.0.1:8080",
+// 	Usage: "The address of the goshimmer API",
+// }
 
 var folderFlag = cli.StringFlag{
 	Name:  "folder, f",
@@ -648,33 +646,33 @@ func contextToConfig(c *cli.Context) *core.Config {
 		}
 		opts = append(opts, core.WithTrustedCerts(paths...))
 	}
-	if c.IsSet("goshimmerAPIurl") {
-		api = client.NewGoShimmerAPI(c.String("goshimmerAPIurl"))
-		opts = append(opts, core.WithBeaconCallback(testCallback))
-	}
+	// if c.IsSet("goshimmerAPIurl") {
+	// 	api = client.NewGoShimmerAPI(c.String("goshimmerAPIurl"))
+	// 	opts = append(opts, core.WithBeaconCallback(testCallback))
+	// }
 	conf := core.NewConfig(opts...)
 	return conf
 }
 
 func testCallback(b *beacon.Beacon) {
-	h := core.RandomnessHash()
-	h.Write(b.GetSignature())
-	randomness := h.Sum(nil)
-	m := &drand.PublicRandResponse{
-		Previous:   b.GetPreviousSig(),
-		Round:      b.Round,
-		Signature:  b.GetSignature(),
-		Randomness: randomness,
-	}
-	data, err := proto.Marshal(m)
-	if err != nil {
-		fmt.Println(err)
-	}
+	// h := core.RandomnessHash()
+	// h.Write(b.GetSignature())
+	// randomness := h.Sum(nil)
+	// m := &drand.PublicRandResponse{
+	// 	Previous:   b.GetPreviousSig(),
+	// 	Round:      b.Round,
+	// 	Signature:  b.GetSignature(),
+	// 	Randomness: randomness,
+	// }
+	// data, err := proto.Marshal(m)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
 	// t := &drand.PublicRandResponse{}
 	// proto.Unmarshal(data, t)
 	//fmt.Println("TESTING THIS", data, t)
-	size := strconv.Itoa((len(data)))
+	// size := strconv.Itoa((len(data)))
 	//fmt.Println("TESTING THIS", size, (size + string(data))[:3])
 	//fmt.Println("LEN", len(data), len(string(data)))
 	// conv, err := strconv.Atoi((size + string(data))[:3])
@@ -683,12 +681,12 @@ func testCallback(b *beacon.Beacon) {
 	// }
 	// fmt.Println("TESTING THAT", conv)
 
-	txHash, err := api.BroadcastData(defaultTxAddress, size+string(data))
-	if err != nil {
-		fmt.Println("Error writing on the Tangle: ", err.Error())
-	} else {
-		fmt.Println("Beacon written on the Tangle with txHash: ", txHash)
-	}
+	// txHash, err := api.BroadcastData(defaultTxAddress, size+string(data))
+	// if err != nil {
+	// 	fmt.Println("Error writing on the Tangle: ", err.Error())
+	// } else {
+	// 	fmt.Println("Beacon written on the Tangle with txHash: ", txHash)
+	// }
 
 }
 
