@@ -3,7 +3,7 @@ version: '3'
 services:
   drand-client-1:
     container_name: drand1
-    image: drand-it
+    image: drand
     container_name: drand1
     build:
       context: ..
@@ -18,7 +18,7 @@ services:
       LEADER: 1
   drand-client-2:
     container_name: drand2
-    image: drand-it
+    image: drand
     container_name: drand2
     entrypoint: /data/client-script.sh
     volumes:
@@ -29,7 +29,7 @@ services:
       PORT: 8081
   drand-client-3:
     container_name: drand3
-    image: drand-it
+    image: drand
     container_name: drand3
     entrypoint: /data/client-script.sh
     volumes:
@@ -40,7 +40,7 @@ services:
       PORT: 8082
   drand-client-4:
     container_name: drand4
-    image: drand-it
+    image: drand
     container_name: drand4
     entrypoint: /data/client-script.sh
     volumes:
@@ -51,7 +51,7 @@ services:
       PORT: 8083
   drand-client-5:
     container_name: drand5
-    image: drand-it
+    image: drand
     container_name: drand5
     entrypoint: /data/client-script.sh
     volumes:
@@ -66,4 +66,4 @@ networks:
     ipam:
       driver: default
       config:
-          - subnet: 172.16.238.0/24
+          - subnet: 172.16.222.0/24
