@@ -2,7 +2,7 @@ version: '3'
 
 services:
   drand:
-    image: dedis/drand:latest
+    image: angelocapossele/drand:latest
     volumes:
       - ./data:/root/.drand
     ports:
